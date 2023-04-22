@@ -31,11 +31,20 @@ function startDrawing(event) {
     drawPixel(position.x, position.y, colorPicker.value);
 }
 
+let lastPosition = null;
+
 function continueDrawing(event) {
     if (!drawing) return;
     const position = getMousePosition(event);
-    drawPixel(position.x, position.y, colorPicker.value);
+    if (!lastPosition || (lastPosition.x !== position.x || lastPosition.y !== position.y)) {
+        drawPixel(position.x, position.y, colorPicker.value);
+        lastPosition = position;
+    }
+    setTimeout(() => {
+        lastPosition = null;
+    }, 20); 
 }
+
 
 function stopDrawing() {
     drawing = false;
